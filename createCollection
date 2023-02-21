@@ -1,0 +1,19 @@
+const express = require('express')
+const app = express()
+const port = 8000
+
+const MongoClient = require('mongoose');
+const url = "mongodb://127.0.0.1:27017/";
+
+MongoClient.connect(url, function(err, db) {
+    if(err) throw err;
+    const dbo = db.db("mydb");
+
+    dbo.createCollection("products", function(err,res){
+        if (err) throw err;
+        console.log("Created collection!");
+        db.close();
+    });
+});
+
+app.listen(port, () => console.log(`Server started on ${port}!`))
